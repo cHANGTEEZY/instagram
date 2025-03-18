@@ -1,4 +1,8 @@
+# 🚧 UNDER DEVELOPMENT 🚧
+
 # Instagram Clone (PostgreSQL Version)
+
+**Note:** This project is currently under active development. Features and functionalities may change or be incomplete.
 
 This is a full-stack Instagram clone where users can post pictures, add stories, like posts, and more. This version utilizes PostgreSQL instead of MongoDB for data storage.
 
@@ -67,7 +71,8 @@ This is a full-stack Instagram clone where users can post pictures, add stories,
     -Use a tool like Sequelize or Knex to run migrations or manually create the tables.
     -Adapt your models to match the database schema.
     -Example using node-postgres directly to create tables:
-    ```javascript
+
+    ````javascript
     //Example inside your server/server.js or a separate migration file.
     const { Pool } = require('pg');
     const pool = new Pool({
@@ -106,6 +111,8 @@ This is a full-stack Instagram clone where users can post pictures, add stories,
         }
         createTables();
         ```
+
+    ````
 
 6.  Start the server:
 
