@@ -21,7 +21,7 @@ export function SettingsDropDownMenu({ showText }: SettingsDropDownMenuProps) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <div className="flex gap-3 dark:text-white">
+        <div className="flex gap-3 dark:text-white cursor-pointer">
           <Cog />
           <p className={` ${showText ? null : "hidden lg:flex"}`}>Settings</p>
         </div>

@@ -52,7 +52,7 @@ const SideNav = () => {
         </nav>
 
         <div className="border-t p-4">
-          <span className="flex w-full items-center cursor-pointer justify-center lg:justify-start rounded-md px-3 py-3 text-gray-700 dark:hover:bg-slate-600 ">
+          <span className="flex w-full items-center  justify-center lg:justify-start rounded-md px-3 py-3 text-gray-700 dark:hover:bg-slate-600 ">
             <SettingsDropDownMenu showText={false} />
           </span>
         </div>

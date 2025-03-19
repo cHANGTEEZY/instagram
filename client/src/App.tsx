@@ -5,6 +5,8 @@ import { ThemeProvider } from "./context/ThemeContext";
 
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import PageNotFound from "./components/Error404";
+import Login from "./components/Login";
+import Signup from "./components/Signup";
 
 const App = () => {
   return (
@@ -13,6 +15,8 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="*" element={<PageNotFound />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
         </Routes>
       </Router>
     </ThemeProvider>

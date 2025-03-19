@@ -1,3 +1,5 @@
 import astronaunt from "./astronaut.png";
+import phoneModal from "./phoneModal.jpg";
+import mobile from "./mobile.png";
 
-export { astronaunt };
+export { mobile, astronaunt, phoneModal };
