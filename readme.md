@@ -4,15 +4,15 @@
 
 **Note:** This project is currently under active development. Features and functionalities may change or be incomplete.
 
-This is a full-stack Instagram clone where users can post pictures, add stories, like posts, and more. This version utilizes PostgreSQL instead of MongoDB for data storage.
+This is a fully-fledged Instagram clone built using modern technologies, where users can post pictures, add stories, like posts, and more. This version utilizes **PostgreSQL** for data storage and **Prisma** as the ORM.
 
 ## Features
 
-- **User Authentication**: Sign up, log in, and log out functionality.
+- **User Authentication**: Users can sign up, log in, and log out.
 - **Post Creation**: Users can create posts, upload images, and write captions.
 - **Story Feature**: Users can add and view stories.
-- **Likes and Comments**: Posts can be liked, and users can comment on them.
-- **Responsive Design**: The app is fully responsive and works on both desktop and mobile devices.
+- **Likes and Comments**: Posts can be liked and commented on.
+- **Responsive Design**: The app is fully responsive and works seamlessly on both desktop and mobile devices.
 - **Dark Mode**: A toggle to switch between light and dark themes.
 
 ## Installation
@@ -22,30 +22,32 @@ This is a full-stack Instagram clone where users can post pictures, add stories,
 - [Node.js](https://nodejs.org/) - Ensure Node.js is installed on your machine.
 - [PostgreSQL](https://www.postgresql.org/) - You need a PostgreSQL instance for data storage.
 - [Git](https://git-scm.com/) - To clone the repository.
-- [pgAdmin](https://www.pgadmin.org/) (Optional, for database management)
+- [Prisma](https://www.prisma.io/) - ORM for interacting with the PostgreSQL database.
+- [Cloudinary](https://cloudinary.com/) (Optional, for storing images).
+- [pgAdmin](https://www.pgadmin.org/) (Optional, for database management).
 
 ### Steps to Install and Run the App
 
-1.  Clone the repository:
+1. Clone the repository:
 
     ```bash
-    git clone [https://github.com/cHANGTEEZY/instagram.git](https://github.com/cHANGTEEZY/instagram.git)
+    git clone https://github.com/cHANGTEEZY/instagram.git
     ```
 
-2.  Navigate to the project directory:
+2. Navigate to the project directory:
 
     ```bash
     cd instagram
     ```
 
-3.  Install server dependencies:
+3. Install server dependencies:
 
     ```bash
     cd server
     npm install
     ```
 
-4.  Configure environment variables for the server:
+4. Configure environment variables for the server:
 
     - Create a `.env` file in the `server` directory.
     - Add the following variables, replacing the placeholders with your actual values:
@@ -66,55 +68,58 @@ This is a full-stack Instagram clone where users can post pictures, add stories,
     - **Note:** You'll need to create a Cloudinary account to store images and get these credentials.
     - **Note:** Ensure your PostgreSQL database is created and configured.
 
-5.  Run database migrations (or create tables manually):
-    -Install the necessary packages if needed.
-    -Use a tool like Sequelize or Knex to run migrations or manually create the tables.
-    -Adapt your models to match the database schema.
-    -Example using node-postgres directly to create tables:
+5. Set up the database using Prisma:
 
-    ````javascript
-    //Example inside your server/server.js or a separate migration file.
-    const { Pool } = require('pg');
-    const pool = new Pool({
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    host: process.env.DB_HOST,
-    port: process.env.DB_PORT,
-    database: process.env.DB_NAME,
-    });
+    - Install Prisma CLI if you haven't already:
 
-        async function createTables() {
-          try {
-            await pool.query(`
-              CREATE TABLE IF NOT EXISTS users (
-                id SERIAL PRIMARY KEY,
-                username VARCHAR(255) UNIQUE NOT NULL,
-                email VARCHAR(255) UNIQUE NOT NULL,
-                password VARCHAR(255) NOT NULL,
-                profile_picture VARCHAR(255)
-              );
-              CREATE TABLE IF NOT EXISTS posts (
-                id SERIAL PRIMARY KEY,
-                user_id INTEGER REFERENCES users(id),
-                image_url VARCHAR(255) NOT NULL,
-                caption TEXT,
-                created_at TIMESTAMP DEFAULT NOW()
-              );
-              //Add tables for stories, likes, comments, etc.
-            `);
-            console.log('Tables created successfully.');
-          } catch (err) {
-            console.error('Error creating tables:', err);
-          } finally {
-            pool.end();
-          }
-        }
-        createTables();
-        ```
+      ```bash
+      npm install prisma --save-dev
+      ```
 
-    ````
+    - Create your Prisma schema by running:
 
-6.  Start the server:
+      ```bash
+      npx prisma init
+      ```
+
+    - Define your schema in `prisma/schema.prisma`. For example:
+
+      ```prisma
+      datasource db {
+        provider = "postgresql"
+        url      = env("DATABASE_URL")
+      }
+
+      generator client {
+        provider = "prisma-client-js"
+      }
+
+      model User {
+        id             Int      @id @default(autoincrement())
+        username       String   @unique
+        email          String   @unique
+        password       String
+        profile_picture String?
+        posts          Post[]
+      }
+
+      model Post {
+        id        Int      @id @default(autoincrement())
+        userId    Int
+        imageUrl  String
+        caption   String?
+        createdAt DateTime @default(now())
+        user      User     @relation(fields: [userId], references: [id])
+      }
+      ```
+
+    - Run the Prisma migration to create the tables:
+
+      ```bash
+      npx prisma migrate dev --name init
+      ```
+
+6. Start the server:
 
     ```bash
     npm run dev
@@ -122,14 +127,14 @@ This is a full-stack Instagram clone where users can post pictures, add stories,
 
     - This will start the backend server.
 
-7.  Open a new terminal and navigate to the client directory:
+7. Open a new terminal and navigate to the client directory:
 
     ```bash
     cd ../client
     npm install
     ```
 
-8.  Configure environment variables for the client:
+8. Configure environment variables for the client:
 
     - Create a `.env.local` file in the `client` directory.
     - Add the following variable:
@@ -138,7 +143,7 @@ This is a full-stack Instagram clone where users can post pictures, add stories,
       REACT_APP_API_URL=http://localhost:5000/api # Or your server URL
       ```
 
-9.  Start the client:
+9. Start the client:
 
     ```bash
     npm start
@@ -148,5 +153,5 @@ This is a full-stack Instagram clone where users can post pictures, add stories,
 
 ## Technologies Used
 
-- **Frontend**: React.js, Redux, Axios, Material-UI, Styled Components
-- **Backend**: Node.js, Express.js, PostgreSQL, node-postgres (or Sequelize/Knex), JWT, Cloudinary
+- **Frontend**: React.js, Redux, Axios, Shadcnui, Styled Components, Tailwind CSS, React Hook Form, TypeScript
+- **Backend**: Node.js, Express.js, PostgreSQL, Prisma, JWT, Cloudinary/AWS, Bcrypt
