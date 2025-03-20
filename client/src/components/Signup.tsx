@@ -1,8 +1,12 @@
+import { useForm, SubmitHandler } from "react-hook-form";
+import axios from "axios";
+
 import { Instagram, FacebookIcon } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
+import { toast } from "sonner";
 import {
   Card,
   CardContent,
@@ -11,10 +15,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-
-import { useForm, SubmitHandler } from "react-hook-form";
-import { supabase } from "@/config/supabaseClient";
-import { useState } from "react";
 
 type Inputs = {
   email: string;
@@ -27,23 +27,27 @@ export default function SignUp() {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors, isSubmitting },
   } = useForm<Inputs>();
 
-  const [error, setError] = useState();
-
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    const { user, error: signupError } = await supabase.auth.signUp({
-      email: data.email,
-      password: data.password,
-    });
-
-    if (user) {
-      const { data, error } = await supabase.from("users").insert([
-        {
-          id: user.id,
-        },
-      ]);
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_URL}/api/auth/signup`,
+        data
+      );
+      if (!response.data) {
+        toast.error("Failed creating account");
+        throw new Error("No response Data");
+      }
+      reset();
+      toast.success("User created succesfully");
+    } catch (err: any) {
+      reset();
+      const errorMessage =
+        err.response?.data?.message || "Something went wrong";
+      toast.error(errorMessage);
     }
   };
 
@@ -137,7 +141,11 @@ export default function SignUp() {
                   </span>
                 )}
               </div>
-              <Button className="w-full" type="submit" disabled={isSubmitting}>
+              <Button
+                className="w-full cursor-pointer"
+                type="submit"
+                disabled={isSubmitting}
+              >
                 {isSubmitting ? "Signing up..." : "Sign up"}
               </Button>
               <div className="relative">

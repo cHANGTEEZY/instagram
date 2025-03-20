@@ -1,14 +1,27 @@
 // SideNav.jsx
 "use client";
 
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { sideBar } from "@/constants/sideBar";
 import { Cog, Instagram, Menu } from "lucide-react";
 import HiddenNav from "./HiddenNav";
 import { SettingsDropDownMenu } from "./SettingsDropDown";
+import AuthenticateContext from "@/context/AuthorizedContext";
+import { useNavigate } from "react-router-dom";
 
 const SideNav = () => {
+  const AuthContext = useContext(AuthenticateContext);
   const [open, setOpen] = useState(false);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (AuthContext && !AuthContext?.isAuthenticated) {
+      navigate("/");
+    }
+  }, [AuthContext, navigate]);
+
+  if (!AuthContext) return null;
 
   return (
     <>

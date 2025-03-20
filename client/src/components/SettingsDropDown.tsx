@@ -12,12 +12,22 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Cog } from "lucide-react";
 import { ModeToggle } from "./ToggleTheme";
+import { Button } from "./ui/button";
+import { toast } from "sonner";
+import { useNavigate } from "react-router-dom";
 
 type SettingsDropDownMenuProps = {
   showText: boolean;
 };
 
 export function SettingsDropDownMenu({ showText }: SettingsDropDownMenuProps) {
+  const navigate = useNavigate();
+  const handleLogOut = () => {
+    localStorage.removeItem("userAuthToken");
+    toast.info("Logged out");
+    navigate("/login");
+  };
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -42,7 +52,11 @@ export function SettingsDropDownMenu({ showText }: SettingsDropDownMenuProps) {
             </DropdownMenuSubContent>
           </DropdownMenuPortal>
         </DropdownMenuSub>
-        <DropdownMenuItem>Log out </DropdownMenuItem>
+        <DropdownMenuItem>
+          <Button variant={"ghost"} onClick={handleLogOut}>
+            Log out
+          </Button>
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );
