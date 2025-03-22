@@ -1,3 +1,5 @@
+"use client";
+
 import { Card, CardHeader, CardFooter, CardDescription } from "./ui/card";
 import { fakePostsData } from "../constants/fakePosts";
 import { Bookmark, Heart, MessageCircle, Send } from "lucide-react";
@@ -7,7 +9,7 @@ import { Carousel, CarouselContent, CarouselItem } from "./ui/carousel";
 
 const Posts = () => {
   return (
-    <section className="space-y-10">
+    <section className="space-y-10 max-w-md mx-auto">
       {fakePostsData.map((post) => (
         <div key={post.id} className="w-full">
           <Card className="border-none rounded-none bg-background">
@@ -25,18 +27,19 @@ const Posts = () => {
                 <Carousel className="w-full" opts={{}}>
                   <CarouselContent>
                     {post.postImages?.map((image, index) => (
-                      <CarouselItem key={index} className="h-4/12">
-                        <div className="p-1">
+                      <CarouselItem key={index} className="flex justify-center">
+                        <div className="aspect-square w-full relative">
                           <img
                             src={image || "/placeholder.svg"}
                             alt={`Post by ${post.userName} ${index + 1}`}
-                            className="w-full h-auto object-contain"
+                            className="object-cover absolute inset-0 w-full h-full"
                           />
                         </div>
                       </CarouselItem>
                     ))}
                   </CarouselContent>
                 </Carousel>
+
                 <div className="flex justify-between p-4">
                   <div className="flex gap-4">
                     <Button

@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 
 import authentication from "./routes/auth/authentication.js";
+import userDetails from "./routes/user/userDetails.js";
 
 const app = express();
 
@@ -16,6 +17,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/api/auth", authentication);
+app.use("/api/user", userDetails);
 
 app.use((err, req, res, next) => {
   console.error(err.stack);

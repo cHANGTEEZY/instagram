@@ -8,7 +8,7 @@ export const createUser = async (req, res) => {
   try {
     const { username, fullName, email, password } = req.body;
 
-    const userExists = await prisma.user_details.findFirst({
+    const userExists = await prisma.user.findFirst({
       where: {
         OR: [{ username: username }, { email: email }],
       },
@@ -23,7 +23,7 @@ export const createUser = async (req, res) => {
     const salt = await bcrypt.genSalt(saltRounds);
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    const createNewUser = await prisma.user_details.create({
+    const createNewUser = await prisma.user.create({
       data: {
         username,
         email,

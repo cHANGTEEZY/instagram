@@ -1,17 +1,16 @@
 "use client";
 
-import { AvatarFallback } from "@/components/ui/avatar";
-
-import { Avatar } from "@/components/ui/avatar";
-
 import type React from "react";
-
-import SideNav from "@/components/SideNav";
-import { Instagram } from "lucide-react";
-import { useContext, useEffect } from "react";
-import AuthenticateContext from "@/context/AuthorizedContext";
 import { useNavigate } from "react-router-dom";
+import { useContext, useEffect } from "react";
+
+import { AvatarFallback } from "@/components/ui/avatar";
+import { Avatar } from "@/components/ui/avatar";
+import { Instagram } from "lucide-react";
+import SideNav from "@/components/SideNav";
+import AuthenticateContext from "@/context/AuthorizedContext";
 import Posts from "@/components/Posts";
+import { fakePostsData } from "@/constants/fakePosts";
 
 const Home: React.FC = () => {
   const authContext = useContext(AuthenticateContext);
@@ -47,17 +46,17 @@ const Home: React.FC = () => {
                   Suggestions For You
                 </h2>
                 <div className="space-y-4">
-                  {[1, 2, 3, 4, 5].map((item) => (
+                  {fakePostsData.map((item, index) => (
                     <div
-                      key={item}
+                      key={item.id}
                       className="flex items-center justify-between"
                     >
                       <div className="flex items-center gap-2">
                         <Avatar>
-                          <AvatarFallback>U{item}</AvatarFallback>
+                          <AvatarFallback>U{index}</AvatarFallback>
                         </Avatar>
                         <div>
-                          <p className="font-medium">User{item}</p>
+                          <p className="font-medium">User{index + 1}</p>
                           <p className="text-sm text-muted-foreground">
                             Suggested for you
                           </p>

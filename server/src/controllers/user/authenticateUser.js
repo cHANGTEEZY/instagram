@@ -12,7 +12,7 @@ export const authenticateUser = async (req, res) => {
 
     const isEmail = emailRegex.test(usernameOrEmail);
 
-    const userExist = await prisma.user_details.findFirst({
+    const userExist = await prisma.user.findFirst({
       where: {
         OR: [
           { email: isEmail ? usernameOrEmail : undefined },

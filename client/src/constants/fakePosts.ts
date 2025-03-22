@@ -1,4 +1,4 @@
-import { mobile, phoneModal, astronaunt } from "@/Assets";
+import { mobile, astronaunt } from "@/Assets";
 
 export const fakePostsData = [
   {
