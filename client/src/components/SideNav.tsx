@@ -7,7 +7,7 @@ import { Cog, Instagram, Menu } from "lucide-react";
 import HiddenNav from "./HiddenNav";
 import { SettingsDropDownMenu } from "./SettingsDropDown";
 import AuthenticateContext from "@/context/AuthorizedContext";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const SideNav = () => {
   const AuthContext = useContext(AuthenticateContext);
@@ -48,17 +48,19 @@ const SideNav = () => {
           <ul className="space-y-1 px-2 flex flex-col items-center lg:items-stretch">
             {sideBar?.map((link) => (
               <li key={link.id} className="w-full">
-                <button
-                  type="button"
-                  className="flex w-full items-center justify-center cursor-pointer lg:justify-start rounded-md px-3 py-3 text-gray-700 hover:bg-gray-100 dark:text-white dark:hover:bg-slate-700"
-                >
-                  <span className="inline-flex lg:mr-3">
-                    <link.icon size={24} />
-                  </span>
-                  <span className="text-base font-medium hidden lg:block">
-                    {link.title}
-                  </span>
-                </button>
+                <Link to={link.link}>
+                  <button
+                    type="button"
+                    className="flex w-full items-center justify-center cursor-pointer lg:justify-start rounded-md px-3 py-3 text-gray-700 hover:bg-gray-100 dark:text-white dark:hover:bg-slate-700"
+                  >
+                    <span className="inline-flex lg:mr-3">
+                      <link.icon size={24} />
+                    </span>
+                    <span className="text-base font-medium hidden lg:block">
+                      {link.title}
+                    </span>
+                  </button>
+                </Link>
               </li>
             ))}
           </ul>

@@ -9,9 +9,11 @@ export const getUserDetails = async (req, res) => {
       throw new Error("No token");
     }
 
-    const userDetails = prisma.user.findUnique({
+    const userDetails = await prisma.user.findUnique({
       where: { user_id: token },
     });
+
+    console.log("user detail is ", userDetails);
 
     // const userDetails = prisma.user_Details.findUnique({
     //   where: { user_id: token },
@@ -22,7 +24,7 @@ export const getUserDetails = async (req, res) => {
       res.status(404).json({ message: "User details not found" });
     }
 
-    res.staus(200).json({ userDetails });
+    res.status(200).json({ userDetails });
   } catch (err) {
     console.error(err.message);
     res.status(500).json({ message: "Something went wrong" });

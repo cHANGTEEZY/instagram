@@ -9,6 +9,7 @@ import Login from "./components/Login";
 import Signup from "./components/Signup";
 import { AuthenticateProvider } from "./context/AuthorizedContext";
 import { UserDetailsProvider } from "./context/UserDetailsContext";
+import UserProfile from "./Pages/UserProfile";
 
 const App: React.FC = () => {
   return (
@@ -21,6 +22,7 @@ const App: React.FC = () => {
               <Route path="*" element={<PageNotFound />} />
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<Signup />} />
+              <Route path="/profile" element={<UserProfile />} />
             </Routes>
           </Router>
         </ThemeProvider>

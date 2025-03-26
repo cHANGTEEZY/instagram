@@ -28,7 +28,7 @@ export const UserDetailsProvider = ({ children }) => {
   useEffect(() => {
     const fetchUserDetails = async () => {
       try {
-        const response = await axios.get(`${BASE_URL}/api/user/user-details`, {
+        const response = await axios.get(`${BASE_URL}/api/user/user-detail`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },

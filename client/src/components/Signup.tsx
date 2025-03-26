@@ -128,7 +128,7 @@ export default function SignUp() {
                     required: "Enter a password",
                     pattern: {
                       value: /^.{5,}$/,
-                      message: "Password must be 10+ chars",
+                      message: "Password must be 5+ chars",
                     },
                   })}
                   type="password"

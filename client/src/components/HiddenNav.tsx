@@ -1,8 +1,9 @@
 // HiddenNav.jsx
 import { Sheet, SheetContent } from "@/components/ui/sheet";
 import { sideBar } from "@/constants/sideBar";
-import { X, Instagram, Cog } from "lucide-react";
+import { X, Instagram } from "lucide-react";
 import { SettingsDropDownMenu } from "./SettingsDropDown";
+import { Link } from "react-router-dom";
 
 const HiddenNav = ({ open, setOpen }) => {
   return (
@@ -28,20 +29,24 @@ const HiddenNav = ({ open, setOpen }) => {
             <ul className="space-y-2 px-2">
               {sideBar?.map((link) => (
                 <li key={link.id}>
-                  <button
-                    type="button"
-                    className="flex w-full items-center justify-self-start cursor-pointer lg:justify-start rounded-md px-3 py-3 text-gray-700 hover:bg-gray-100 dark:text-white dark:hover:bg-slate-700"
-                    onClick={() => {
-                      setOpen(false);
-                    }}
-                  >
-                    {link.icon && (
-                      <span className="mr-3 inline-flex">
-                        <link.icon size={24} />
+                  <Link to={link.link}>
+                    <button
+                      type="button"
+                      className="flex w-full items-center justify-self-start cursor-pointer lg:justify-start rounded-md px-3 py-3 text-gray-700 hover:bg-gray-100 dark:text-white dark:hover:bg-slate-700"
+                      onClick={() => {
+                        setOpen(false);
+                      }}
+                    >
+                      {link.icon && (
+                        <span className="mr-3 inline-flex">
+                          <link.icon size={24} />
+                        </span>
+                      )}
+                      <span className="text-base font-medium">
+                        {link.title}
                       </span>
-                    )}
-                    <span className="text-base font-medium">{link.title}</span>
-                  </button>
+                    </button>
+                  </Link>
                 </li>
               ))}
             </ul>

@@ -1,4 +1,4 @@
-import { mobile, astronaunt } from "@/Assets";
+import { profileImage, mobile, astronaunt } from "@/Assets";
 
 export const fakePostsData = [
   {
@@ -7,7 +7,7 @@ export const fakePostsData = [
     avatarImage: astronaunt,
     postLikes: 10000,
     postDescription: "This is a fake post ",
-    postImages: [mobile, mobile, mobile, mobile],
+    postImages: [profileImage, mobile, mobile, mobile],
   },
   {
     id: 2,
@@ -15,7 +15,7 @@ export const fakePostsData = [
     avatarImage: astronaunt,
     postLikes: 10000,
     postDescription: "This is a fake post ",
-    postImages: [mobile, mobile, mobile, mobile],
+    postImages: [profileImage, mobile, mobile, mobile],
   },
   {
     id: 3,
@@ -23,7 +23,7 @@ export const fakePostsData = [
     avatarImage: astronaunt,
     postLikes: 10000,
     postDescription: "This is a fake post ",
-    postImages: [mobile, mobile, mobile, mobile],
+    postImages: [profileImage, mobile, mobile, mobile],
   },
   {
     id: 4,
@@ -31,7 +31,7 @@ export const fakePostsData = [
     avatarImage: astronaunt,
     postLikes: 10000,
     postDescription: "This is a fake post ",
-    postImages: [mobile, mobile, mobile, mobile],
+    postImages: [profileImage, mobile, mobile, mobile],
   },
   {
     id: 5,
@@ -39,7 +39,7 @@ export const fakePostsData = [
     avatarImage: astronaunt,
     postLikes: 10000,
     postDescription: "This is a fake post ",
-    postImages: [mobile, mobile, mobile, mobile],
+    postImages: [profileImage, mobile, mobile, mobile],
   },
   {
     id: 6,
@@ -47,6 +47,6 @@ export const fakePostsData = [
     avatarImage: astronaunt,
     postLikes: 10000,
     postDescription: "This is a fake post ",
-    postImages: [mobile, mobile, mobile, mobile],
+    postImages: [profileImage, mobile, mobile, mobile],
   },
 ];
