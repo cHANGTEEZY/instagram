@@ -20,7 +20,8 @@ export const sideBar = [
     title: "Notificaions",
     icon: Heart,
     size: 8,
-    link: "/",
+    link: "/modal",
+    openModal: true,
   },
   {
     id: "4",

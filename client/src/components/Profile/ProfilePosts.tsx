@@ -2,8 +2,8 @@ import { profileImages } from "@/constants/profilePosts";
 
 const ProfilePosts = () => {
   return (
-    <div className="flex items-center justify-center">
-      <div className="grid gap-1 max-w-[80%] grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+    <div className="flex items-center justify-center ">
+      <div className="grid gap-1 max-w-[80%] grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 border-t-2 py-10">
         {profileImages.map((post, index) => (
           <img
             key={index}

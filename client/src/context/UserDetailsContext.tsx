@@ -4,14 +4,13 @@ import BASE_URL from "@/constants/url";
 
 // Define the shape of the user details
 type UserDetails = {
-  bio: string;
-  profilePicLink: string;
-  birthDate: Date;
-  gender: string;
-  location: string;
+  userDetails: {
+    username: string;
+    fullname: string;
+  };
 };
 
-const UserContext = createContext<{
+export const UserDetailContext = createContext<{
   userDetails: UserDetails | null;
   error: string | null;
 }>({
@@ -21,6 +20,7 @@ const UserContext = createContext<{
 
 export const UserDetailsProvider = ({ children }) => {
   const [userDetails, setUserDetails] = useState<UserDetails | null>(null);
+  console.log("User detail is", userDetails);
   const [error, setError] = useState<string | null>(null);
 
   const token = localStorage.getItem("userAuthToken");
@@ -53,8 +53,8 @@ export const UserDetailsProvider = ({ children }) => {
   }, [token]);
 
   return (
-    <UserContext.Provider value={{ userDetails, error }}>
+    <UserDetailContext.Provider value={{ userDetails, error }}>
       {children}
-    </UserContext.Provider>
+    </UserDetailContext.Provider>
   );
 };

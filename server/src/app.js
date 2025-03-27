@@ -3,11 +3,12 @@ import cors from "cors";
 
 import authentication from "./routes/auth/authentication.js";
 import userDetails from "./routes/user/userDetails.js";
+import posts from "./routes/user/post.js";
 
 const app = express();
 
 const corsOptions = {
-  origin: ["http://localhost:5173"],
+  origin: "*",
   methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
   credentials: true,
 };
@@ -18,6 +19,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/api/auth", authentication);
 app.use("/api/user", userDetails);
+app.use("/api/post", posts);
 
 app.use((err, req, res, next) => {
   console.error(err.stack);

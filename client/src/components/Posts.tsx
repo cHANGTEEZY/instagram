@@ -1,13 +1,17 @@
 "use client";
 
-import { Card, CardHeader, CardFooter, CardDescription } from "./ui/card";
+import { useContext } from "react";
+import { Card, CardHeader, CardDescription } from "./ui/card";
 import { fakePostsData } from "../constants/fakePosts";
 import { Bookmark, Heart, MessageCircle, Send } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Carousel, CarouselContent, CarouselItem } from "./ui/carousel";
+import { UserDetailContext } from "@/context/UserDetailsContext";
 
 const Posts = () => {
+  const { userDetails } = useContext(UserDetailContext);
+
   return (
     <section className="space-y-10 max-w-md mx-auto">
       {fakePostsData.map((post) => (
@@ -15,16 +19,20 @@ const Posts = () => {
           <Card className="border-none rounded-none bg-background">
             <CardHeader className="p-4">
               <div className="flex items-center gap-2">
-                <Avatar>
-                  <AvatarImage src={post.avatarImage} alt={post.userName} />
-                  <AvatarFallback>{post.userName.charAt(0)}</AvatarFallback>
+                <Avatar className="h-8 w-8">
+                  <AvatarImage />
+                  <AvatarFallback>
+                    {userDetails?.userDetails.username.charAt(0).toUpperCase()}
+                  </AvatarFallback>
                 </Avatar>
-                <h1 className="font-medium">{post.userName}</h1>
+                <h1 className="font-medium">
+                  {userDetails?.userDetails.username}
+                </h1>
               </div>
             </CardHeader>
-            <CardDescription className="px-0">
+            <CardDescription className="p-0">
               <div>
-                <Carousel className="w-full" opts={{}}>
+                <Carousel className="w-full">
                   <CarouselContent>
                     {post.postImages?.map((image, index) => (
                       <CarouselItem key={index} className="flex justify-center">
@@ -40,11 +48,11 @@ const Posts = () => {
                   </CarouselContent>
                 </Carousel>
 
-                <div className="flex justify-between p-4">
+                <div className="flex justify-between py-4">
                   <div className="flex gap-4">
                     <Button
                       variant={"ghost"}
-                      className="hover:text-accent-foreground transition-colors"
+                      className="hover:text-accent-foreground transition-colors "
                     >
                       <Heart className="h-6 w-6" />
                     </Button>
@@ -70,19 +78,17 @@ const Posts = () => {
                     </Button>
                   </div>
                 </div>
+                <div className="text-primary px-3">
+                  <p className="font-medium">
+                    {post.postLikes.toLocaleString()} likes
+                  </p>
+                  <p>
+                    <span className="font-medium">{post.userName}</span>{" "}
+                    {post.postDescription}
+                  </p>
+                </div>
               </div>
             </CardDescription>
-            <CardFooter className="px-4 pb-4">
-              <div>
-                <p className="font-medium">
-                  {post.postLikes.toLocaleString()} likes
-                </p>
-                <p>
-                  <span className="font-medium">{post.userName}</span>{" "}
-                  {post.postDescription}
-                </p>
-              </div>
-            </CardFooter>
           </Card>
         </div>
       ))}

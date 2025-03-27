@@ -3,17 +3,19 @@
 
 import { useContext, useEffect, useState } from "react";
 import { sideBar } from "@/constants/sideBar";
-import { Cog, Instagram, Menu } from "lucide-react";
-import HiddenNav from "./HiddenNav";
+import { Instagram, Menu } from "lucide-react";
 import { SettingsDropDownMenu } from "./SettingsDropDown";
-import AuthenticateContext from "@/context/AuthorizedContext";
 import { Link, useNavigate } from "react-router-dom";
 
+import AuthenticateContext from "@/context/AuthorizedContext";
+import HiddenNav from "./HiddenNav";
+import { CreatePost } from "./posts/CreatePostModal";
+
 const SideNav = () => {
+  const navigate = useNavigate();
   const AuthContext = useContext(AuthenticateContext);
   const [open, setOpen] = useState(false);
-
-  const navigate = useNavigate();
+  const [createPostOpen, setIsCreatePostOpen] = useState(false);
 
   useEffect(() => {
     if (AuthContext && !AuthContext?.isAuthenticated) {
@@ -48,9 +50,10 @@ const SideNav = () => {
           <ul className="space-y-1 px-2 flex flex-col items-center lg:items-stretch">
             {sideBar?.map((link) => (
               <li key={link.id} className="w-full">
-                <Link to={link.link}>
+                {link.id === "4" ? (
                   <button
                     type="button"
+                    onClick={() => setIsCreatePostOpen(true)}
                     className="flex w-full items-center justify-center cursor-pointer lg:justify-start rounded-md px-3 py-3 text-gray-700 hover:bg-gray-100 dark:text-white dark:hover:bg-slate-700"
                   >
                     <span className="inline-flex lg:mr-3">
@@ -60,11 +63,26 @@ const SideNav = () => {
                       {link.title}
                     </span>
                   </button>
-                </Link>
+                ) : (
+                  <Link to={link.link}>
+                    <button
+                      type="button"
+                      className="flex w-full items-center justify-center cursor-pointer lg:justify-start rounded-md px-3 py-3 text-gray-700 hover:bg-gray-100 dark:text-white dark:hover:bg-slate-700"
+                    >
+                      <span className="inline-flex lg:mr-3">
+                        <link.icon size={24} />
+                      </span>
+                      <span className="text-base font-medium hidden lg:block">
+                        {link.title}
+                      </span>
+                    </button>
+                  </Link>
+                )}
               </li>
             ))}
           </ul>
         </nav>
+        <CreatePost open={createPostOpen} setIsOpen={setIsCreatePostOpen} />
 
         <div className="border-t p-4">
           <span className="flex w-full items-center  justify-center lg:justify-start rounded-md px-3 py-3 text-gray-700 dark:hover:bg-slate-600 ">

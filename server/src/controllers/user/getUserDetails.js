@@ -4,7 +4,8 @@ const prisma = new PrismaClient();
 
 export const getUserDetails = async (req, res) => {
   try {
-    const token = req.userId.id;
+    console.log("Here");
+    const token = req.userId.id.user;
     if (!token) {
       throw new Error("No token");
     }
@@ -15,10 +16,13 @@ export const getUserDetails = async (req, res) => {
 
     console.log("user detail is ", userDetails);
 
-    // const userDetails = prisma.user_Details.findUnique({
-    //   where: { user_id: token },
-    //   include: { user: true },
-    // });
+    const userProfileDetails = await prisma.user_Details.findUnique({
+      where: {
+        user_id: token,
+      },
+    });
+
+    console.log("User profile details are", userProfileDetails);
 
     if (!userDetails) {
       res.status(404).json({ message: "User details not found" });

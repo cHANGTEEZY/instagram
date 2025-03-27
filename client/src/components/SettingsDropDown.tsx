@@ -12,15 +12,19 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Cog } from "lucide-react";
 import { ModeToggle } from "./ToggleTheme";
-import { Button } from "./ui/button";
 import { toast } from "sonner";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { UserDetailContext } from "@/context/UserDetailsContext";
+import { useContext } from "react";
 
 type SettingsDropDownMenuProps = {
   showText: boolean;
 };
 
 export function SettingsDropDownMenu({ showText }: SettingsDropDownMenuProps) {
+  const { userDetails } = useContext(UserDetailContext);
+  const username =
+    userDetails?.userDetails.username || userDetails?.userDetails.fullname;
   const navigate = useNavigate();
   const handleLogOut = () => {
     localStorage.removeItem("userAuthToken");
@@ -37,9 +41,11 @@ export function SettingsDropDownMenu({ showText }: SettingsDropDownMenuProps) {
         </div>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">
-        <DropdownMenuLabel>My Account</DropdownMenuLabel>
+        <DropdownMenuLabel className="capitalize">{username}</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>Profile</DropdownMenuItem>
+        <DropdownMenuItem>
+          <Link to={"/profile"}>Profile</Link>
+        </DropdownMenuItem>
 
         <DropdownMenuSeparator />
         <DropdownMenuSub>
@@ -52,11 +58,7 @@ export function SettingsDropDownMenu({ showText }: SettingsDropDownMenuProps) {
             </DropdownMenuSubContent>
           </DropdownMenuPortal>
         </DropdownMenuSub>
-        <DropdownMenuItem>
-          <Button variant={"ghost"} onClick={handleLogOut}>
-            Log out
-          </Button>
-        </DropdownMenuItem>
+        <DropdownMenuItem onClick={handleLogOut}>Log out</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

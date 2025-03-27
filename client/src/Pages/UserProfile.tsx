@@ -1,4 +1,4 @@
-import Profile from "@/components/Profile";
+import Profile from "@/components/Profile/Profile";
 import SideNav from "@/components/SideNav";
 
 const UserProfile = () => {

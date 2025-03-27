@@ -4,8 +4,12 @@ import { sideBar } from "@/constants/sideBar";
 import { X, Instagram } from "lucide-react";
 import { SettingsDropDownMenu } from "./SettingsDropDown";
 import { Link } from "react-router-dom";
+import { CreatePost } from "./posts/CreatePostModal";
+import { useState } from "react";
 
 const HiddenNav = ({ open, setOpen }) => {
+  const [createPostOpen, setIsCreatePostOpen] = useState(false);
+
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetContent side="left" className="p-0 w-[280px]">
@@ -26,31 +30,42 @@ const HiddenNav = ({ open, setOpen }) => {
           </div>
 
           <nav className="flex-1 overflow-auto py-4">
-            <ul className="space-y-2 px-2">
+            <ul className="space-y-1 px-2 flex flex-col items-center lg:items-stretch">
               {sideBar?.map((link) => (
-                <li key={link.id}>
-                  <Link to={link.link}>
+                <li key={link.id} className="w-full">
+                  {link.id === "4" ? (
                     <button
                       type="button"
-                      className="flex w-full items-center justify-self-start cursor-pointer lg:justify-start rounded-md px-3 py-3 text-gray-700 hover:bg-gray-100 dark:text-white dark:hover:bg-slate-700"
-                      onClick={() => {
-                        setOpen(false);
-                      }}
+                      onClick={() => setIsCreatePostOpen(true)}
+                      className="flex w-full items-center justify-center cursor-pointer lg:justify-start rounded-md px-3 py-3 text-gray-700 hover:bg-gray-100 dark:text-white dark:hover:bg-slate-700"
                     >
-                      {link.icon && (
-                        <span className="mr-3 inline-flex">
-                          <link.icon size={24} />
-                        </span>
-                      )}
-                      <span className="text-base font-medium">
+                      <span className="inline-flex lg:mr-3">
+                        <link.icon size={24} />
+                      </span>
+                      <span className="text-base font-medium hidden lg:block">
                         {link.title}
                       </span>
                     </button>
-                  </Link>
+                  ) : (
+                    <Link to={link.link}>
+                      <button
+                        type="button"
+                        className="flex w-full items-center justify-center cursor-pointer lg:justify-start rounded-md px-3 py-3 text-gray-700 hover:bg-gray-100 dark:text-white dark:hover:bg-slate-700"
+                      >
+                        <span className="inline-flex lg:mr-3">
+                          <link.icon size={24} />
+                        </span>
+                        <span className="text-base font-medium hidden lg:block">
+                          {link.title}
+                        </span>
+                      </button>
+                    </Link>
+                  )}
                 </li>
               ))}
             </ul>
           </nav>
+          <CreatePost open={createPostOpen} setIsOpen={setIsCreatePostOpen} />
 
           <div className="border-t p-4">
             <span className="flex w-full items-center cursor-pointer justify-self-start lg:justify-start rounded-md px-3 py-3 text-gray-700 dark:hover:bg-slate-600 ">

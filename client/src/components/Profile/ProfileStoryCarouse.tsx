@@ -1,5 +1,5 @@
 import { profileImage } from "@/Assets";
-import { Carousel, CarouselContent, CarouselItem } from "./ui/carousel";
+import { Carousel, CarouselContent, CarouselItem } from "../ui/carousel";
 
 const ProfileStoryCarousel = () => {
   return (

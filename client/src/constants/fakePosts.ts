@@ -3,7 +3,6 @@ import { profileImage, mobile, astronaunt } from "@/Assets";
 export const fakePostsData = [
   {
     id: 1,
-    userName: "Sushank",
     avatarImage: astronaunt,
     postLikes: 10000,
     postDescription: "This is a fake post ",
@@ -11,7 +10,6 @@ export const fakePostsData = [
   },
   {
     id: 2,
-    userName: "Sushank",
     avatarImage: astronaunt,
     postLikes: 10000,
     postDescription: "This is a fake post ",
@@ -19,7 +17,6 @@ export const fakePostsData = [
   },
   {
     id: 3,
-    userName: "Sushank",
     avatarImage: astronaunt,
     postLikes: 10000,
     postDescription: "This is a fake post ",
@@ -27,7 +24,6 @@ export const fakePostsData = [
   },
   {
     id: 4,
-    userName: "Sushank",
     avatarImage: astronaunt,
     postLikes: 10000,
     postDescription: "This is a fake post ",
@@ -35,7 +31,6 @@ export const fakePostsData = [
   },
   {
     id: 5,
-    userName: "Sushank",
     avatarImage: astronaunt,
     postLikes: 10000,
     postDescription: "This is a fake post ",
@@ -43,7 +38,6 @@ export const fakePostsData = [
   },
   {
     id: 6,
-    userName: "Sushank",
     avatarImage: astronaunt,
     postLikes: 10000,
     postDescription: "This is a fake post ",
