@@ -14,22 +14,36 @@ datasource db {
 }
 
 model User {
-  user_id      String        @id @default(uuid())
-  fullname     String
-  email        String        @unique
-  password     String
-  created_at   DateTime      @default(now())
-  User_Details User_Details?
+  user_id    String   @id @default(uuid())
+  fullname   String
+  username   String
+  email      String   @unique
+  password   String
+  created_at DateTime @default(now())
+
+  posts   Post[] //  One-to-Many Relationship 
+  Profile Profile?
 }
 
-model User_Details {
-  user_details_id  String    @id @default(uuid())
+model Profile {
+  id               String    @id @default(uuid())
   bio              String?
   profile_pic_link String?
   birth_date       DateTime?
   gender           String?
   location         String?
-  user_id          String    @unique
 
-  user User @relation(fields: [user_id], references: [user_id], onDelete: Cascade)
+  user_id String @unique //  Ensure a one-to-one relationship with User
+  user    User   @relation(fields: [user_id], references: [user_id], onDelete: Cascade)
+}
+
+model Post {
+  post_id     String   @id @default(uuid()) //  Primary key for posts
+  content_url String
+  description String
+  location    String?
+  created_at  DateTime @default(now())
+
+  user_id String // Foreign key to reference the user
+  user    User   @relation(fields: [user_id], references: [user_id], onDelete: Cascade)
 }

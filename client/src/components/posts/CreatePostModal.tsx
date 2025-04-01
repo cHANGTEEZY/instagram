@@ -103,7 +103,7 @@ export function CreatePost({
           </DialogTitle>
         </DialogHeader>
 
-        <div className="flex flex-col md:flex-row h-[500px]">
+        <div className="flex flex-col md:flex-row md:h-[500px] h-[900px]">
           <div className="flex-1 bg-muted/20 flex items-center justify-center relative">
             {!mediaPreview ? (
               <div className="text-center p-6">
