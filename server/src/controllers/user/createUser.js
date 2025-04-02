@@ -1,42 +1,50 @@
-import { PrismaClient } from "@prisma/client";
+import { pool } from "../../db.js";
 import bcrypt from "bcrypt";
 
-const prisma = new PrismaClient();
 const saltRounds = 12;
 
 export const createUser = async (req, res) => {
+  let client;
+  console.log("hit");
+
   try {
     const { username, fullName, email, password } = req.body;
 
-    const userExists = await prisma.user.findFirst({
-      where: {
-        OR: [{ username: username }, { email: email }],
-      },
-    });
+    client = await pool.connect();
 
-    if (userExists) {
+    // Check if user already exists
+    const userExistsQuery = `
+      SELECT user_id FROM users WHERE username = $1 OR email = $2;
+    `;
+    const { rowCount } = await client.query(userExistsQuery, [username, email]);
+
+    if (rowCount > 0) {
       return res
         .status(400)
         .json({ message: "User with given email or username already exists" });
     }
 
-    const salt = await bcrypt.genSalt(saltRounds);
-    const hashedPassword = await bcrypt.hash(password, salt);
+    // Hash the password
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
 
-    const createNewUser = await prisma.user.create({
-      data: {
-        username,
-        email,
-        password: hashedPassword,
-        fullname: fullName,
-      },
-    });
+    // Insert new user
+    const insertUserQuery = `
+      INSERT INTO users (user_id, username, email, password, fullname) 
+      VALUES (gen_random_uuid(), $1, $2, $3, $4) 
+      RETURNING user_id, username, email, fullname, created_at;
+    `;
+    const { rows } = await client.query(insertUserQuery, [
+      username,
+      email,
+      hashedPassword,
+      fullName,
+    ]);
 
-    res.status(201).json({ message: "User Created", user: createNewUser });
+    res.status(201).json({ message: "User Created", user: rows[0] });
   } catch (error) {
-    console.error(error);
+    console.error("Error creating user:", error);
     res.status(500).json({ message: "Something went wrong" });
   } finally {
-    await prisma.$disconnect();
+    if (client) client.release(); // Ensure client is released
   }
 };

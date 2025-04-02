@@ -1,5 +1,7 @@
 import express from "express";
 import cors from "cors";
+import dotenv from "dotenv";
+dotenv.config();
 
 import authentication from "./routes/auth/authentication.js";
 import userDetails from "./routes/user/userDetails.js";
@@ -26,7 +28,6 @@ app.use((err, req, res, next) => {
   res.status(500).json({ message: "Something went wrong" });
 });
 
-const PORT = 3000;
-app.listen(PORT, () => {
-  console.log(`Server running on PORT ${PORT}`);
+app.listen(() => {
+  console.log(`Server running on PORT ${process.env.PORT}`);
 });
