@@ -12,7 +12,8 @@ const getAllPost = async (req, res) => {
     p.created_at
   FROM posts p
   INNER JOIN users u 
-  ON u.user_id = p.user_id
+  ON u.user_id = p.user_id 
+  ORDER BY p.created_at DESC;
 `;
     const { rows } = await pool.query(query);
 

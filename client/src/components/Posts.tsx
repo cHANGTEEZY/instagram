@@ -7,6 +7,7 @@ import axios from "axios";
 
 const Posts = () => {
   const [allPosts, setAllPosts] = useState([]);
+  console.log(allPosts);
   const [loading, setLoading] = useState(false);
   const observer = useRef();
 
@@ -59,7 +60,7 @@ const Posts = () => {
       {allPosts.length > 0 ? (
         allPosts.map((post, index) => (
           <div
-            key={post.post_id}
+            key={`${post.created_at}_${Math.random()}`}
             ref={index === allPosts.length - 1 ? lastPostRef : null}
             className="w-full"
           >

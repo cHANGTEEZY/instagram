@@ -1,6 +1,6 @@
 import { astronaunt } from "@/Assets";
 import { Button } from "../ui/button";
-import { Cog, Link } from "lucide-react";
+import { Cog, Link, TriangleAlert } from "lucide-react";
 import { useContext } from "react";
 import { UserDetailContext } from "@/context/UserDetailsContext";
 
@@ -41,11 +41,14 @@ const ProfilHeader = () => {
         </div>
         <div className="grid">
           <span>ʘ‿ʘ</span>
-          <span>Co-founder of VBee Tech. Software Engineer. Freelancer</span>
+          <span className="flex">
+            <TriangleAlert className="text-red-600" /> User will be able to add
+            description || dummy data
+          </span>
           <span className="flex gap-2">
             <Link />
             <a href="#" className="dark:text-blue-200 text-gray-500">
-              vbee.vercel.app
+              vbee.vercel.app || dummy data
             </a>
           </span>
         </div>
