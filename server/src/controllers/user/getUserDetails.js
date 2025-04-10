@@ -4,17 +4,13 @@ export const getUserDetails = async (req, res) => {
   let client;
 
   try {
-    console.log("Here");
-
-    // Extract token (assuming it's stored in req.userId)
-    const userId = req.userId; // Ensure this is correctly set by your middleware
+    const userId = req.userId;
     if (!userId) {
       return res.status(401).json({ message: "Unauthorized" });
     }
 
     client = await pool.connect();
 
-    // Fetch user details
     const userDetailsQuery = `
       SELECT user_id, username, email, fullname, created_at 
       FROM users 

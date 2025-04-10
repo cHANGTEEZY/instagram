@@ -1,6 +1,5 @@
 import { useForm, SubmitHandler } from "react-hook-form";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 
 import { Link } from "react-router-dom";
 import { Facebook, Instagram } from "lucide-react";
@@ -23,8 +22,6 @@ type Inputs = {
 };
 
 export default function Login() {
-  const navigate = useNavigate();
-
   const {
     register,
     reset,

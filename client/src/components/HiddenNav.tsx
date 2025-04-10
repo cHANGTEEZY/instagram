@@ -7,7 +7,12 @@ import { Link } from "react-router-dom";
 import { CreatePost } from "./posts/CreatePostModal";
 import { useState } from "react";
 
-const HiddenNav = ({ open, setOpen }) => {
+interface HiddenNavProps {
+  open: boolean;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const HiddenNav: React.FC<HiddenNavProps> = ({ open, setOpen }) => {
   const [createPostOpen, setIsCreatePostOpen] = useState(false);
 
   return (

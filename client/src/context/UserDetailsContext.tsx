@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useEffect, useState, ReactNode } from "react";
 import axios from "axios";
 import BASE_URL from "@/constants/url";
 
@@ -10,15 +10,21 @@ type UserDetails = {
   };
 };
 
-export const UserDetailContext = createContext<{
+type UserDetailContextType = {
   userDetails: UserDetails | null;
   error: string | null;
-}>({
+};
+
+export const UserDetailContext = createContext<UserDetailContextType>({
   userDetails: null,
   error: null,
 });
 
-export const UserDetailsProvider = ({ children }) => {
+interface UserDetailsProviderProps {
+  children: ReactNode;
+}
+
+export const UserDetailsProvider = ({ children }: UserDetailsProviderProps) => {
   const [userDetails, setUserDetails] = useState<UserDetails | null>(null);
   console.log("User detail is", userDetails);
   const [error, setError] = useState<string | null>(null);

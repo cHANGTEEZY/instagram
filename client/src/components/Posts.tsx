@@ -1,5 +1,3 @@
-"use client";
-
 import { useContext } from "react";
 import { Card, CardHeader, CardDescription } from "./ui/card";
 import { fakePostsData } from "../constants/fakePosts";
@@ -20,7 +18,7 @@ const Posts = () => {
             <CardHeader className="p-4">
               <div className="flex items-center gap-2">
                 <Avatar className="h-8 w-8">
-                  <AvatarImage />
+                  <AvatarImage src={post.avatarImage} alt="User Avatar" />
                   <AvatarFallback>
                     {userDetails?.userDetails.username.charAt(0).toUpperCase()}
                   </AvatarFallback>
@@ -39,7 +37,9 @@ const Posts = () => {
                         <div className="aspect-square w-full relative">
                           <img
                             src={image || "/placeholder.svg"}
-                            alt={`Post by ${post.userName} ${index + 1}`}
+                            alt={`Post by ${
+                              userDetails?.userDetails.username
+                            } ${index + 1}`}
                             className="object-cover absolute inset-0 w-full h-full"
                           />
                         </div>
@@ -83,7 +83,9 @@ const Posts = () => {
                     {post.postLikes.toLocaleString()} likes
                   </p>
                   <p>
-                    <span className="font-medium">{post.userName}</span>{" "}
+                    <span className="font-medium">
+                      {userDetails?.userDetails.username}
+                    </span>{" "}
                     {post.postDescription}
                   </p>
                 </div>

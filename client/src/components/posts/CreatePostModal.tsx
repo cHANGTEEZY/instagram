@@ -21,6 +21,7 @@ import { Separator } from "@/components/ui/separator";
 import { UserDetailContext } from "@/context/UserDetailsContext";
 import axios from "axios";
 import { toast } from "sonner";
+import AuthenticateContext from "@/context/AuthorizedContext";
 
 interface CreatePostProps {
   open: boolean;
@@ -36,6 +37,8 @@ export function CreatePost({
   username = "username",
 }: CreatePostProps) {
   const { userDetails } = useContext(UserDetailContext);
+  const authContext = useContext(AuthenticateContext);
+  const isAuthenticated = authContext?.isAuthenticated || false;
 
   const [caption, setCaption] = useState("");
   const [location, setLocation] = useState("");
@@ -45,7 +48,7 @@ export function CreatePost({
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     console.log(event.target.files);
     const file = event.target.files?.[0];
-
+    console.log(file);
     if (file) {
       const fileType = file.type.split("/")[0];
 
@@ -62,12 +65,25 @@ export function CreatePost({
 
   const handleSubmit = async () => {
     try {
+      if (!isAuthenticated) {
+        return;
+      }
+
+      const token = localStorage.getItem("userAuthToken");
+      if (!token) {
+        return;
+      }
       const response = await axios.post(
         `${import.meta.env.VITE_API_URL}/api/post/create-post`,
         {
           caption,
           location,
           mediaPreview,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
 
@@ -129,7 +145,7 @@ export function CreatePost({
                   <img
                     src={mediaPreview || "/placeholder.svg"}
                     alt="Preview"
-                    className=" max-w-full max-h-full object-contain"
+                    className="max-w-full max-h-full object-contain"
                   />
                 )}
                 {mediaType === "video" && (
@@ -179,7 +195,6 @@ export function CreatePost({
 
             <Separator />
 
-            {/* Location */}
             <div className="p-4 flex items-center space-x-2">
               <MapPin className="h-4 w-4 text-muted-foreground" />
               <Input

@@ -10,7 +10,7 @@ import posts from "./routes/user/post.js";
 const app = express();
 
 const corsOptions = {
-  origin: "*",
+  origin: "http://localhost:4173",
   methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
   credentials: true,
 };
@@ -28,6 +28,6 @@ app.use((err, req, res, next) => {
   res.status(500).json({ message: "Something went wrong" });
 });
 
-app.listen(() => {
+app.listen(process.env.PORT, () => {
   console.log(`Server running on PORT ${process.env.PORT}`);
 });
