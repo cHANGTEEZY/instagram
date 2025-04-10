@@ -5,11 +5,19 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import axios from "axios";
 
+// Define the Post interface
+interface Post {
+  post_id: string; // or number depending on your API
+  username: string;
+  content_url: string;
+  description: string;
+}
+
 const Posts = () => {
-  const [allPosts, setAllPosts] = useState([]);
-  console.log(allPosts);
+  const [allPosts, setAllPosts] = useState<Post[]>([]); // Now TypeScript knows the structure of the posts
   const [loading, setLoading] = useState(false);
-  const observer = useRef();
+  const observer = useRef<HTMLDivElement | null>(null);
+  const lastPostRef = useRef<HTMLDivElement | null>(null);
 
   const loadPosts = async () => {
     if (loading) return;
@@ -27,8 +35,6 @@ const Posts = () => {
     }
   };
 
-  const lastPostRef = useRef();
-
   useEffect(() => {
     loadPosts();
   }, []);
@@ -42,7 +48,7 @@ const Posts = () => {
         threshold: 1.0,
       };
 
-      const callback = (entries) => {
+      const callback = (entries: IntersectionObserverEntry[]) => {
         if (entries[0].isIntersecting && !loading) {
           loadPosts();
         }
@@ -60,7 +66,7 @@ const Posts = () => {
       {allPosts.length > 0 ? (
         allPosts.map((post, index) => (
           <div
-            key={`${post.created_at}_${Math.random()}`}
+            key={post.post_id + index}
             ref={index === allPosts.length - 1 ? lastPostRef : null}
             className="w-full"
           >

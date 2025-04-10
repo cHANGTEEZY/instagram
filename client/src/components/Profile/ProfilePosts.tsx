@@ -1,16 +1,17 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 // Define types for posts
 interface Post {
   post_id: string;
   content_url: string;
+  created_at: string;
+  username: string;
 }
 
 const ProfilePosts = () => {
   const [allUserPosts, setAllUserPosts] = useState<Post[]>([]);
-
-  console.log(allUserPosts);
+  const lastPostRef = useRef<HTMLDivElement | null>(null); // Fix ref typing
 
   useEffect(() => {
     const token = localStorage.getItem("userAuthToken");
@@ -48,16 +49,21 @@ const ProfilePosts = () => {
     <div className="flex items-center justify-center ">
       <div className="grid gap-1 max-w-[80%] grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 border-t-2 py-10">
         {allUserPosts.length > 0 ? (
-          allUserPosts.map((post) => (
-            <img
-              key={`${post.created_at}_${Math.random()}`}
-              src={post.content_url}
-              alt={`Post ${post.post_id}`}
-              className="w-full h-auto aspect-square object-cover "
-            />
+          allUserPosts.map((post, index) => (
+            <div
+              key={`${post.created_at}_${Math.random()}`} // Unique key
+              ref={index === allUserPosts.length - 1 ? lastPostRef : null}
+              className="w-full"
+            >
+              <img
+                src={post.content_url}
+                alt={`Post ${post.post_id}`}
+                className="w-full h-auto aspect-square object-cover"
+              />
+            </div>
           ))
         ) : (
-          <div className="relative  top-0 left-[50%] translate-x-[50%] ">
+          <div className="relative top-0 left-[50%] translate-x-[50%]">
             <h1 className="text-5xl text-center">
               Your uploaded posts <br /> will be shown here
             </h1>
