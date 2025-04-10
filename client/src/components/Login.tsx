@@ -127,7 +127,7 @@ export default function Login() {
               </div>
               <Button variant="outline" className="w-full text-blue-500">
                 <Facebook />
-                Sign in with GitHub
+                Sign in with Facebook
               </Button>
             </form>
           </CardContent>
