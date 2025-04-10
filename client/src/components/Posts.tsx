@@ -1,48 +1,68 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Card, CardHeader, CardDescription } from "./ui/card";
 import { Bookmark, Heart, MessageCircle, Send } from "lucide-react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import axios from "axios";
 
-type postData = {
-  post_id: string;
-  username: string;
-  content_url: string;
-  description: string;
-  created_at: string;
-  location: string;
-};
-
 const Posts = () => {
-  const [allPosts, setAllPosts] = useState<postData>();
+  const [allPosts, setAllPosts] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const observer = useRef();
+
+  const loadPosts = async () => {
+    if (loading) return;
+    setLoading(true);
+
+    try {
+      const response = await axios.get(
+        `${import.meta.env.VITE_API_URL}/api/post/get-all-post`
+      );
+      setAllPosts((prev) => [...prev, ...response?.data?.data]);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const lastPostRef = useRef();
 
   useEffect(() => {
-    const getAllPosts = async () => {
-      try {
-        const response = await axios.get(
-          `${import.meta.env.VITE_API_URL}/api/post/get-all-post`
-        );
-
-        if (!response?.data) {
-          throw new Error("There are no posts");
-        }
-        setAllPosts(response?.data.data);
-      } catch (error: any) {
-        const statusCode = error.response?.status || 500;
-        const message = error.response?.data?.message || error.message;
-        console.error(statusCode, message);
-      }
-    };
-
-    getAllPosts();
+    loadPosts();
   }, []);
+
+  useEffect(() => {
+    const currentObserver = observer.current;
+    if (currentObserver) {
+      const options = {
+        root: null,
+        rootMargin: "0px",
+        threshold: 1.0,
+      };
+
+      const callback = (entries) => {
+        if (entries[0].isIntersecting && !loading) {
+          loadPosts();
+        }
+      };
+
+      const observerInstance = new IntersectionObserver(callback, options);
+      observerInstance.observe(currentObserver);
+
+      return () => observerInstance.disconnect();
+    }
+  }, [loading]);
 
   return (
     <section className="space-y-10 max-w-md mx-auto">
-      {Array.isArray(allPosts) && allPosts.length > 0 ? (
-        allPosts.map((post) => (
-          <div key={post.post_id} className="w-full">
+      {allPosts.length > 0 ? (
+        allPosts.map((post, index) => (
+          <div
+            key={post.post_id}
+            ref={index === allPosts.length - 1 ? lastPostRef : null}
+            className="w-full"
+          >
             <Card className="border-none rounded-none bg-background">
               <CardHeader className="p-4">
                 <div className="flex items-center gap-2">
@@ -68,7 +88,7 @@ const Posts = () => {
                     <div className="flex gap-4">
                       <Button
                         variant={"ghost"}
-                        className="hover:text-accent-foreground transition-colors "
+                        className="hover:text-accent-foreground transition-colors"
                       >
                         <Heart className="h-6 w-6" />
                       </Button>
@@ -109,6 +129,7 @@ const Posts = () => {
       ) : (
         <p>No posts available</p>
       )}
+      {loading && <p>Loading more posts...</p>}
     </section>
   );
 };

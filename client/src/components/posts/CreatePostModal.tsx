@@ -89,7 +89,6 @@ export function CreatePost({
       } else {
         toast.success("Post created");
       }
-      setIsPostUploading(false);
     } catch (err: any) {
       toast.error(err.response?.data.message || "Something went wrong");
     } finally {
@@ -102,6 +101,7 @@ export function CreatePost({
       setMediaType(null);
       setFile(null);
       setIsOpen(false);
+      setIsPostUploading(false);
     }
   };
 
