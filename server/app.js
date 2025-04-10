@@ -10,7 +10,7 @@ import posts from "./routes/user/post.js";
 const app = express();
 
 const corsOptions = {
-  origin: ["https://instagram-three-tan.vercel.app", "http://localhost:5173"],
+  origin: ["https://instagram-three-tan.vercel.app"],
   methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
   credentials: true,
 };
