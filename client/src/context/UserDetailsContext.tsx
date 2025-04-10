@@ -26,7 +26,6 @@ interface UserDetailsProviderProps {
 
 export const UserDetailsProvider = ({ children }: UserDetailsProviderProps) => {
   const [userDetails, setUserDetails] = useState<UserDetails | null>(null);
-  console.log("User detail is", userDetails);
   const [error, setError] = useState<string | null>(null);
 
   const token = localStorage.getItem("userAuthToken");

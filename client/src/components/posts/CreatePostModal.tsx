@@ -42,44 +42,40 @@ export function CreatePost({
 
   const [caption, setCaption] = useState("");
   const [location, setLocation] = useState("");
+  const [file, setFile] = useState<File | null>(null);
   const [mediaPreview, setMediaPreview] = useState<string | null>(null);
   const [mediaType, setMediaType] = useState<"image" | "video" | null>(null);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(event.target.files);
-    const file = event.target.files?.[0];
-    console.log(file);
-    if (file) {
-      const fileType = file.type.split("/")[0];
+    const selectedFile = event.target.files?.[0];
+    if (!selectedFile) return;
 
-      if (fileType === "image" || fileType === "video") {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          setMediaPreview(e.target?.result as string);
-          setMediaType(fileType as "image" | "video");
-        };
-        reader.readAsDataURL(file);
-      }
-    }
+    setFile(selectedFile);
+
+    const fileType = selectedFile.type.split("/")[0] as "image" | "video";
+    setMediaType(fileType);
+
+    const objectUrl = URL.createObjectURL(selectedFile);
+    setMediaPreview(objectUrl);
   };
 
   const handleSubmit = async () => {
-    try {
-      if (!isAuthenticated) {
-        return;
-      }
+    if (!isAuthenticated || !file) return;
 
-      const token = localStorage.getItem("userAuthToken");
-      if (!token) {
-        return;
-      }
+    const token = localStorage.getItem("userAuthToken");
+    if (!token) return;
+
+    const formData = new FormData();
+
+    formData.append("caption", caption);
+    formData.append("location", location);
+    formData.append("file", file);
+    formData.append("foldername", token);
+
+    try {
       const response = await axios.post(
         `${import.meta.env.VITE_API_URL}/api/post/create-post`,
-        {
-          caption,
-          location,
-          mediaPreview,
-        },
+        formData,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -89,22 +85,31 @@ export function CreatePost({
 
       if (!response.data) {
         toast.error("Failed creating post");
+      } else {
+        toast.success("Post created");
       }
-      toast.success("Post created");
     } catch (err: any) {
-      throw new Error(err.response?.data.message);
+      toast.error(err.response?.data.message || "Something went wrong");
     } finally {
+      if (mediaPreview) {
+        URL.revokeObjectURL(mediaPreview);
+      }
       setCaption("");
       setLocation("");
       setMediaPreview(null);
       setMediaType(null);
+      setFile(null);
       setIsOpen(false);
     }
   };
 
   const handleReset = () => {
+    if (mediaPreview) {
+      URL.revokeObjectURL(mediaPreview);
+    }
     setMediaPreview(null);
     setMediaType(null);
+    setFile(null);
   };
 
   return (
