@@ -45,6 +45,7 @@ export function CreatePost({
   const [file, setFile] = useState<File | null>(null);
   const [mediaPreview, setMediaPreview] = useState<string | null>(null);
   const [mediaType, setMediaType] = useState<"image" | "video" | null>(null);
+  const [postUploading, setIsPostUploading] = useState(false);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = event.target.files?.[0];
@@ -71,7 +72,7 @@ export function CreatePost({
     formData.append("location", location);
     formData.append("file", file);
     formData.append("foldername", token);
-
+    setIsPostUploading(true);
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_API_URL}/api/post/create-post`,
@@ -88,6 +89,7 @@ export function CreatePost({
       } else {
         toast.success("Post created");
       }
+      setIsPostUploading(false);
     } catch (err: any) {
       toast.error(err.response?.data.message || "Something went wrong");
     } finally {
@@ -215,9 +217,11 @@ export function CreatePost({
             {/* Actions */}
             <div className="p-4">
               <Button
-                className="w-full"
+                className={`w-full ${
+                  !mediaPreview || postUploading ? "cursor-not-allowed" : ""
+                }`}
                 onClick={handleSubmit}
-                disabled={!mediaPreview}
+                disabled={!mediaPreview || postUploading}
               >
                 <Send className="h-4 w-4 mr-2" />
                 Share

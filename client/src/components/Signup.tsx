@@ -28,6 +28,7 @@ export default function SignUp() {
     register,
     handleSubmit,
     reset,
+    setValue,
     formState: { errors, isSubmitting },
   } = useForm<Inputs>();
 
@@ -49,6 +50,13 @@ export default function SignUp() {
         err.response?.data?.message || "Something went wrong";
       toast.error(errorMessage);
     }
+  };
+
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    field: keyof Inputs
+  ) => {
+    setValue(field, e.target.value.toLowerCase(), { shouldValidate: true });
   };
 
   return (
@@ -79,6 +87,7 @@ export default function SignUp() {
                   type="email"
                   id="email"
                   placeholder="Email"
+                  onChange={(e) => handleInputChange(e, "email")}
                 />
                 {errors.email && (
                   <span className="text-red-500">{errors.email.message}</span>
@@ -115,6 +124,7 @@ export default function SignUp() {
                   type="text"
                   id="username"
                   placeholder="Username"
+                  onChange={(e) => handleInputChange(e, "username")}
                 />
                 {errors.username && (
                   <span className="text-red-500">
