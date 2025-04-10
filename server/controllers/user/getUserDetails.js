@@ -4,10 +4,13 @@ export const getUserDetails = async (req, res) => {
   let client;
 
   try {
-    const userId = req.userId;
+    const userIdDetails = req.userId;
+    const userId = userIdDetails.id.user;
     if (!userId) {
       return res.status(401).json({ message: "Unauthorized" });
     }
+
+    console.log("user id is ", userId);
 
     client = await pool.connect();
 
@@ -24,7 +27,6 @@ export const getUserDetails = async (req, res) => {
 
     console.log("User details:", userDetailsResult.rows[0]);
 
-    // Fetch user profile details
     const userProfileDetailsQuery = `
       SELECT bio, profile_pic_link, birth_date, gender, location 
       FROM profiles 
@@ -38,12 +40,12 @@ export const getUserDetails = async (req, res) => {
 
     res.status(200).json({
       userDetails: userDetailsResult.rows[0],
-      userProfileDetails: userProfileResult.rows[0] || null, // Return null if no profile exists
+      userProfileDetails: userProfileResult.rows[0] || null,
     });
   } catch (err) {
     console.error("Error:", err.message);
     res.status(500).json({ message: "Something went wrong" });
   } finally {
-    if (client) client.release(); // Ensure the client is released back to the pool
+    if (client) client.release();
   }
 };

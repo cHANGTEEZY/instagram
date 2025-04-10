@@ -10,7 +10,7 @@ import posts from "./routes/user/post.js";
 const app = express();
 
 const corsOptions = {
-  origin: "http://localhost:4173",
+  origin: ["http://localhost:4173", "http://localhost:5173"],
   methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
   credentials: true,
 };
