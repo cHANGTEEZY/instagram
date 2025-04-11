@@ -1,4 +1,5 @@
-import React, { useEffect, useRef } from "react";
+import type React from "react";
+import { useEffect, useRef } from "react";
 
 interface CustomModalProps {
   isOpen: boolean;
@@ -15,7 +16,6 @@ export function CustomModal({
 }: CustomModalProps) {
   const modalRef = useRef<HTMLDivElement>(null);
 
-  // Close on escape key
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
@@ -23,7 +23,6 @@ export function CustomModal({
 
     if (isOpen) {
       document.addEventListener("keydown", handleEscape);
-      // Prevent body scroll when modal is open
       document.body.style.overflow = "hidden";
     }
 
@@ -33,9 +32,8 @@ export function CustomModal({
     };
   }, [isOpen, onClose]);
 
-  // Handle click outside to close
-  const handleOutsideClick = (e: React.MouseEvent) => {
-    if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
+  const handleBackdropClick = (e: React.MouseEvent) => {
+    if (e.target === e.currentTarget) {
       onClose();
     }
   };
@@ -45,12 +43,12 @@ export function CustomModal({
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-in fade-in"
-      onClick={handleOutsideClick}
+      onClick={handleBackdropClick}
+      data-testid="modal-backdrop"
     >
       <div
         ref={modalRef}
         className={`bg-background rounded-lg shadow-lg max-h-[90vh] w-full max-w-[95vw] md:max-w-[900px] animate-in zoom-in-95 ${className}`}
-        onClick={(e) => e.stopPropagation()}
       >
         {children}
       </div>

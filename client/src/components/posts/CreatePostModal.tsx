@@ -1,5 +1,3 @@
-"use client";
-
 import type React from "react";
 
 import { useContext, useState } from "react";
@@ -45,6 +43,13 @@ export function CreatePost({
   const [mediaPreview, setMediaPreview] = useState<string | null>(null);
   const [mediaType, setMediaType] = useState<"image" | "video" | null>(null);
   const [postUploading, setIsPostUploading] = useState(false);
+
+  const handleClose = () => {
+    if (mediaPreview) {
+      URL.revokeObjectURL(mediaPreview);
+    }
+    setIsOpen(false);
+  };
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = event.target.files?.[0];
@@ -120,7 +125,7 @@ export function CreatePost({
   return (
     <CustomModal
       isOpen={open}
-      onClose={() => setIsOpen(false)}
+      onClose={handleClose}
       className="p-0 overflow-hidden"
     >
       <CustomModalHeader>
@@ -189,7 +194,6 @@ export function CreatePost({
 
           <Separator />
 
-          {/* Caption */}
           <div className="flex-1 p-4">
             <Textarea
               placeholder="Write a caption..."
@@ -213,7 +217,6 @@ export function CreatePost({
 
           <Separator />
 
-          {/* Actions */}
           <div className="p-4">
             <Button
               className={`w-full ${
@@ -230,7 +233,7 @@ export function CreatePost({
       </div>
 
       <CustomModalFooter>
-        <CustomModalClose onClick={() => setIsOpen(false)}>
+        <CustomModalClose onClick={handleClose}>
           <Button type="button" variant="secondary">
             Cancel
           </Button>
