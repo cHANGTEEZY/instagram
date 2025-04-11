@@ -5,12 +5,15 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import axios from "axios";
 
+import ConvertDate from "@/utils/convertDate.ts";
+
 interface Post {
   post_id: string;
   username: string;
   content_url: string;
   description: string;
   location: string;
+  created_at: string;
 }
 
 const Posts = () => {
@@ -73,13 +76,18 @@ const Posts = () => {
           >
             <Card className="border-none rounded-none bg-background">
               <CardHeader className="p-4">
-                <div className="flex items-center gap-2">
-                  <Avatar className="h-8 w-8">
-                    <AvatarFallback>
-                      {post.username.charAt(0).toUpperCase()}
-                    </AvatarFallback>
-                  </Avatar>
-                  <h1 className="font-medium">{post.username}</h1>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <Avatar className="h-8 w-8">
+                      <AvatarFallback>
+                        {post.username.charAt(0).toUpperCase()}
+                      </AvatarFallback>
+                    </Avatar>
+                    <h1 className="font-medium">{post.username}</h1>
+                  </div>
+                  <p className="text-gray-400 text-sm">
+                    {ConvertDate(post.created_at)}
+                  </p>
                 </div>
                 {post.location && (
                   <div>
