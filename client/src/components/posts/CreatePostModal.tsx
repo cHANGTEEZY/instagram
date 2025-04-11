@@ -53,7 +53,11 @@ export function CreatePost({
 
     setFile(selectedFile);
 
-    const fileType = selectedFile.type.split("/")[0] as "image" | "video";
+    const fileType = selectedFile.type.split("/")[0];
+    if (fileType !== "image" && fileType !== "video") {
+      alert("Only video or image is supported");
+      return;
+    }
     setMediaType(fileType);
 
     const objectUrl = URL.createObjectURL(selectedFile);

@@ -5,16 +5,15 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import axios from "axios";
 
-// Define the Post interface
 interface Post {
-  post_id: string; // or number depending on your API
+  post_id: string;
   username: string;
   content_url: string;
   description: string;
 }
 
 const Posts = () => {
-  const [allPosts, setAllPosts] = useState<Post[]>([]); // Now TypeScript knows the structure of the posts
+  const [allPosts, setAllPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(false);
   const observer = useRef<HTMLDivElement | null>(null);
   const lastPostRef = useRef<HTMLDivElement | null>(null);
