@@ -134,7 +134,7 @@ const Posts = () => {
                     <p className="font-medium">10000 likes</p>
                     <p>
                       <span className="font-medium">{post.username}</span>{" "}
-                      {post.description || "No description available"}
+                      {post.description || ""}
                     </p>
                   </div>
                 </div>
