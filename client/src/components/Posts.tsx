@@ -10,6 +10,7 @@ interface Post {
   username: string;
   content_url: string;
   description: string;
+  location: string;
 }
 
 const Posts = () => {
