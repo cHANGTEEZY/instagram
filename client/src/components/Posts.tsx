@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import { Card, CardHeader, CardDescription } from "./ui/card";
-import { Bookmark, Heart, MessageCircle, Send } from "lucide-react";
+import { Bookmark, Heart, MapPin, MessageCircle, Send } from "lucide-react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import axios from "axios";
@@ -14,6 +14,7 @@ interface Post {
 
 const Posts = () => {
   const [allPosts, setAllPosts] = useState<Post[]>([]);
+  console.log(allPosts);
   const [loading, setLoading] = useState(false);
   const observer = useRef<HTMLDivElement | null>(null);
   const lastPostRef = useRef<HTMLDivElement | null>(null);
@@ -79,6 +80,14 @@ const Posts = () => {
                   </Avatar>
                   <h1 className="font-medium">{post.username}</h1>
                 </div>
+                {post.location && (
+                  <div>
+                    <span className="flex gap-1 items-center mb-3">
+                      <MapPin size={15} />
+                      <p>{post.location}</p>
+                    </span>
+                  </div>
+                )}
               </CardHeader>
               <CardDescription className="p-0">
                 <div>

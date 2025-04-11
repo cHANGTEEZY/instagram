@@ -59,7 +59,7 @@ export function CreatePost({
 
     const fileType = selectedFile.type.split("/")[0];
     if (fileType !== "image" && fileType !== "video") {
-      alert("Only video or image is supported");
+      alert("Only image is supported");
       return;
     }
     setMediaType(fileType);
@@ -146,7 +146,7 @@ export function CreatePost({
                 <input
                   type="file"
                   id="file-upload"
-                  accept="image/*,video/*"
+                  accept="image/*"
                   onChange={handleFileChange}
                   className="hidden"
                 />
@@ -161,12 +161,7 @@ export function CreatePost({
                   className="max-w-full max-h-full object-contain"
                 />
               )}
-              {mediaType === "video" && (
-                <video controls className="max-w-full max-h-full">
-                  <source src={mediaPreview} />
-                  Your browser does not support the video tag.
-                </video>
-              )}
+
               <Button
                 variant="outline"
                 size="icon"
